@@ -1,0 +1,20 @@
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const Chat = () => {
+  return (
+    <SafeAreaView>
+      <View>
+        <Text style={styles.title}>This is Chat page.</Text>
+      </View>
+    </SafeAreaView>
+  );
+};
+export default Chat;
+
+const styles = StyleSheet.create({
+  title: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+});

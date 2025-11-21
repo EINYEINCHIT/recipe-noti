@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "recipenotiapp",
     "name": "recipe-noti",
     "slug": "recipe-noti",
     "version": "1.0.0",
@@ -25,6 +26,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
