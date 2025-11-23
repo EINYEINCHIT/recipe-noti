@@ -1,7 +1,8 @@
-import { StyleSheet } from "react-native";
+import { useColorScheme, StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Colors } from "@/constants";
-import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import { RequiredAuth } from "@/components";
 
 const TAB_ICONS = {
   Noti: { focused: "notifications", unfocused: "notifications-outline" },
@@ -20,50 +21,56 @@ const TAB_ITEMS: readonly TabConfig[] = [
 ];
 
 const TabsLayout = () => {
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme!] ?? Colors.light;
+
   return (
-    <Tabs
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: Colors.white,
-          paddingTop: 5,
-          height: 90,
-        },
-        tabBarActiveTintColor: Colors.primary[500],
-        tabBarInactiveTintColor: Colors.gray[400],
-        tabBarLabelStyle: { fontSize: 12 },
-        tabBarIcon: ({ focused }) => {
-          const iconSet = TAB_ICONS[route.name as keyof typeof TAB_ICONS];
-          const iconName = focused ? iconSet.focused : iconSet.unfocused;
-          const iconColor = focused ? Colors.primary[500] : Colors.gray[400];
+    <RequiredAuth>
+      <Tabs
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: theme.bottomNavBackground,
+            paddingTop: 5,
+            height: 90,
+          },
+          tabBarActiveTintColor: theme.iconColorFocused,
+          tabBarInactiveTintColor: theme.iconColor,
+          tabBarLabelStyle: { fontSize: 12 },
+          tabBarIcon: ({ focused }) => {
+            const iconSet = TAB_ICONS[route.name as keyof typeof TAB_ICONS];
+            const iconName = focused ? iconSet.focused : iconSet.unfocused;
+            const iconColor = focused ? theme.iconColorFocused : theme.iconColor;
 
-          switch (route.name) {
-            case "Noti":
-              return (
-                <Ionicons name={iconName} size={24} color={iconColor} />
-              );
+            switch (route.name) {
+              case "Noti":
+                return (
+                  <Ionicons name={iconName} size={24} color={iconColor} />
+                );
 
-            case "Chat":
-              return (
-                <MaterialIcons name={iconName} size={24} color={iconColor} />
-              );
+              case "Chat":
+                return (
+                  <MaterialIcons name={iconName} size={24} color={iconColor} />
+                );
 
-            default:
-              return <Ionicons name={iconName} size={24} color={iconColor} />;
-          }
-        },
-      })}
-    >
-      {TAB_ITEMS.map((tab) => (
-        <Tabs.Screen
-          key={tab.name}
-          name={tab.name}
-          options={{ title: tab.title }}
-        />
-      ))}
-    </Tabs>
+              default:
+                return <Ionicons name={iconName} size={24} color={iconColor} />;
+            }
+          },
+        })}
+      >
+        {TAB_ITEMS.map((tab) => (
+          <Tabs.Screen
+            key={tab.name}
+            name={tab.name}
+            options={{ title: tab.title }}
+          />
+        ))}
+      </Tabs>
+    </RequiredAuth>
   );
 };
+
 export default TabsLayout;
 
 const styles = StyleSheet.create({});

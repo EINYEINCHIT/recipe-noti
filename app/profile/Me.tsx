@@ -5,18 +5,18 @@ import {
   Spacer,
 } from "@/components";
 
-const Chat = () => {
+const Me = () => {
   return (
     <MyContainer style={styles.container}>
       <Spacer />
       <MyText title={false} style={styles.title}>
-        This is Chat page.
+        This is Me page.
       </MyText>
     </MyContainer>
-  );
+  )
 };
 
-export default Chat;
+export default Me;
 
 const styles = StyleSheet.create({
   container: {
