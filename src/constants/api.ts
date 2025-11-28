@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://192.168.100.144:8000";
+export const API_BASE_URL = "https://chat0.myskinrecipes.com";
 
 export const API_ENDPOINTS = {
   auth: {

@@ -10,7 +10,7 @@ export interface AuthProviderProps {
 
 export interface AuthContextType {
   user: User | null;
-  login: (data: LoginCredentials) => Promise<void>;
+  login: (data: LoginPayload) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -23,7 +23,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async(credentials: LoginPayload) => {
-    const { data } = await axios.post<{ content: LoginResponse }>(`${API_BASE_URL}${API_ENDPOINTS.auth.login}`, credentials);
+    const { data } = await axios.post<{ content: LoginResponse }>(`${API_BASE_URL}${API_ENDPOINTS.auth.login}`,
+      credentials, {
+        headers: { "User-Agent": "Mozilla/5.0" }
+      }
+    );
     setUser(data.content);
   }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96465089902",
+    "project_id": "recipe-noti-project2025",
+    "storage_bucket": "recipe-noti-project2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96465089902:android:cd5ba716af49cffefe7d7f",
+        "android_client_info": {
+          "package_name": "com.eiei25.recipenoti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1NUXztkATY84BJVM3o4XvdTQchlKIsl0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

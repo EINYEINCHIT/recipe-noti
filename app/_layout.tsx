@@ -1,12 +1,20 @@
-import { useColorScheme, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { useColorScheme, Appearance, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { Stack, router } from "expo-router";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { Colors } from "@/constants";
 import { AuthProvider } from "@/context";
-import { useAuth } from "@/hooks";
+import { useAuth, useNotification } from "@/hooks";
+import { useEffect } from "react";
 
 const RootLayoutContent = () => {
   const { logout } = useAuth();
+
+  useNotification();
+
+  useEffect(() => {
+    Appearance.setColorScheme('light');
+  }, []);
+
 
   const handleLogout = () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [

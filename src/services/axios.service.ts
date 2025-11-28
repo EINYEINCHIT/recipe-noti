@@ -20,7 +20,8 @@ function handleAuthError(status?: number) {
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getAuthToken();
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers["User-Agent"] = "Mozilla/5.0";
     return config;
   },
   (error) => Promise.reject(error)
