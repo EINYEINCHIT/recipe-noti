@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, FlatList, TouchableOpacity, Alert } from "react-native";
 import { Avatar, Chip, ActivityIndicator } from "react-native-paper";
 import { Colors } from "@/constants";
 import { Notification, NotificationListResponse } from "@/types";
 import { findAllNoti } from "@/services";
 import { useAuth } from "@/hooks";
+import { formatDate } from "@/utils";
 
 const Noti = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -14,7 +15,6 @@ const Noti = () => {
   const { user } = useAuth();
 
   const getAllNoti = useCallback(async () => {
-    console.log("call getAllNoti");
     if (!user) return;
 
     setLoading(true);
@@ -43,7 +43,7 @@ const Noti = () => {
   };
 
   const onClickNoti = async(_noti: any) => {
-    console.log("TO DO");
+    Alert.alert("TO DO");
   };
 
   return (
@@ -77,11 +77,12 @@ const Noti = () => {
                 </View>
               </View>
 
-              <Chip style={styles.chip} mode="outlined">
-                {item.ms_name}
-              </Chip>
-
-              <Text style={styles.datetime}>{item.created_at}</Text>
+              <View style={styles.infoContainer}>
+                <Chip style={styles.chip} textStyle={styles.chipText} mode="outlined">
+                  {item.ms_name}
+                </Chip>
+                <Text style={styles.datetime}>{formatDate(item.created_at, "fromNow")}</Text>
+              </View>
             </TouchableOpacity>
           )}
           style={{ width: "100%" }}
@@ -124,13 +125,23 @@ const styles = StyleSheet.create({
   description: {
     color: '#555',
   },
+  infoContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   chip: {
-    marginTop: 5,
-    alignSelf: 'flex-start',
+    marginLeft: 50,
+  },
+  chipText: {
+    fontSize: 10,
+    fontWeight: 'bold'
   },
   datetime: {
     marginTop: 5,
     fontSize: 12,
     color: '#888',
+    alignSelf: 'flex-end',
   },
 });
