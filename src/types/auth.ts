@@ -3,6 +3,7 @@ export interface User {
     username: string;
     email: string;
     token: string;
+    session_id: number;
 }
 
 export interface LoginPayload {
@@ -16,4 +17,5 @@ export interface LoginResponse {
   username: string;
   email: string;
   token: string;
+  session_id: number;
 }

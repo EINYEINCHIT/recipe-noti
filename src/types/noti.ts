@@ -1,3 +1,15 @@
+export enum SubscriberTypeEnum {
+  STAFF = 'STAFF',
+  CUSTOMER = 'CUSTOMER',
+}
+
+export interface SubscribeNotiPayload {
+  fcm_token: string;
+  user_id: number;
+  type: SubscriberTypeEnum;
+  session_id: number;
+}
+
 export interface Notification {
   id: number;
   description: string;

@@ -1,12 +1,11 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import messaging from "@react-native-firebase/messaging";
-import {Alert} from "react-native";
 
 export function useNotification() {
   const [fcmToken, setFcmToken] = useState("");
   const [permissionStatus, setPermissionStatus] = useState(false);
 
-  // Ask for Permission
+  // Request FCM Permission
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -17,8 +16,8 @@ export function useNotification() {
     return enabled;
   };
 
+  // Setup Notifications
   useEffect(() => {
-    // Request permission on mount
     const setup = async () => {
       const granted = await requestUserPermission();
 
@@ -33,28 +32,28 @@ export function useNotification() {
       // When app is opened from a quit state
       messaging()
         .getInitialNotification()
-        .then(remoteMessage => {
+        .then((remoteMessage) => {
           if (remoteMessage) {
-            Alert.alert("*** Opened from quit state", JSON.stringify(remoteMessage.notification));
+            // console.log("*** Opened from quit state", JSON.stringify(remoteMessage.notification));
           }
         });
 
       // App opened from background
-      messaging().onNotificationOpenedApp(remoteMessage => {
-        Alert.alert("*** Opened from background", JSON.stringify(remoteMessage.notification));
+      messaging().onNotificationOpenedApp((remoteMessage) => {
+        // console.log("*** Opened from background", JSON.stringify(remoteMessage.notification));
       });
 
       // Background message handler
-      messaging().setBackgroundMessageHandler(async remoteMessage => {
-        Alert.alert("*** Background message", JSON.stringify(remoteMessage));
+      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+        // console.log("*** Background message", JSON.stringify(remoteMessage));
       });
     };
 
     setup();
 
     // Foreground messages
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert("*** Foreground Message", JSON.stringify(remoteMessage));
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      // console.log("*** Foreground Message", JSON.stringify(remoteMessage));
     });
 
     return unsubscribe;

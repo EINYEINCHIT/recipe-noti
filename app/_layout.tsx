@@ -4,17 +4,38 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { Colors } from "@/constants";
 import { AuthProvider } from "@/context";
 import { useAuth, useNotification } from "@/hooks";
+import { subscribeNoti } from "@/services";
+import { SubscriberTypeEnum } from "@/types";
 import { useEffect } from "react";
 
 const RootLayoutContent = () => {
-  const { logout } = useAuth();
-
-  useNotification();
-
   useEffect(() => {
-    Appearance.setColorScheme('light');
+    Appearance.setColorScheme("light");
   }, []);
 
+  const { user, logout } = useAuth();
+
+  const { fcmToken, permissionStatus } = useNotification();
+
+  // Subscribe device token to notifications
+  useEffect(() => {
+    const doSubscribe = async () => {
+      if (!permissionStatus || !fcmToken || !user) return;
+            
+      try {
+        await subscribeNoti({
+          fcm_token: fcmToken,
+          user_id: user.user_id,
+          session_id: user.session_id,
+          type: SubscriberTypeEnum.STAFF,
+        });
+      } catch (err) {
+        console.warn("Subscribe notification failed", err);
+      }
+    };
+
+    doSubscribe();
+  }, [permissionStatus, fcmToken, user]);
 
   const handleLogout = () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [

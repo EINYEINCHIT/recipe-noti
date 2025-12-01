@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async() => {
     const token = user?.token;
-    await axios.post(`${API_BASE_URL}${API_ENDPOINTS.auth.logout}`, token).catch(() => {});
+    await axios.post(`${API_BASE_URL}${API_ENDPOINTS.auth.logout}`, { token }).catch(() => {});
     setUser(null);
     router.replace("auth/Login");
   }

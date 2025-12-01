@@ -20,8 +20,8 @@ import {
 import { useAuth } from "@/hooks";
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("zaw@chanjao.com");
-  const [password, setPassword] = useState<string>("password");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -39,7 +39,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login({ email, password, device_name: "mobile" });
+      await login({ email, password, device_name: "Mobile" });
       router.replace("(tabs)/Noti");
     } catch (err: any) {
       setError(err?.message ?? "Something went wrong.");
