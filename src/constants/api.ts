@@ -1,4 +1,8 @@
-export const API_BASE_URL = "http://192.168.100.144:8000";
+export const API_BASE_URL = "https://chat0.myskinrecipes.com";
+/**
+ * - Staging → https://chat0.myskinrecipes.com
+ * - Local → http://192.168.100.144:8000
+ */
 
 export const API_ENDPOINTS = {
   auth: {
@@ -7,7 +11,7 @@ export const API_ENDPOINTS = {
   },
   noti: {
     subscribe: "/api/noti/subscribe",
-    findAll: "/api/noti/staff/notification"
+    findAll: "/api/noti/staff/notification",
   }
 } as const;
 

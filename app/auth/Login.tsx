@@ -20,8 +20,8 @@ import {
 import { useAuth } from "@/hooks";
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("zaw@chanjao.com");
+  const [password, setPassword] = useState<string>("password");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

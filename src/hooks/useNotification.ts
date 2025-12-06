@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 
 export function useNotification() {
@@ -53,7 +54,7 @@ export function useNotification() {
 
     // Foreground messages
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      // console.log("*** Foreground Message", JSON.stringify(remoteMessage));
+      Alert.alert("*** Foreground Message", JSON.stringify(remoteMessage));
     });
 
     return unsubscribe;

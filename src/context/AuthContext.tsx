@@ -24,16 +24,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async(credentials: LoginPayload) => {
     const { data } = await axios.post<{ content: LoginResponse }>(`${API_BASE_URL}${API_ENDPOINTS.auth.login}`,
-      credentials, {
-        headers: { "User-Agent": "Mozilla/5.0" }
-      }
+      credentials,
+      { headers: {"User-Agent": "Mozilla/5.0"} }
     );
     setUser(data.content);
   }
 
   const logout = async() => {
     const token = user?.token;
-    await axios.post(`${API_BASE_URL}${API_ENDPOINTS.auth.logout}`, { token }).catch(() => {});
+    await axios.post(`${API_BASE_URL}${API_ENDPOINTS.auth.logout}`,
+      { token },
+      { headers: {"User-Agent": "Mozilla/5.0"} }
+    ).catch(() => {});
     setUser(null);
     router.replace("auth/Login");
   }
