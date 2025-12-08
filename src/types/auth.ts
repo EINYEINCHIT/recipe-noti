@@ -37,3 +37,11 @@ export interface LoginResponse {
   department: DepartmentEnum;
   role: RoleEnum;
 }
+
+export interface LogoutPayload {
+  token: string;
+}
+
+export interface LogoutResponse {
+  subscription_id: number;
+}

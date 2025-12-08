@@ -1,8 +1,7 @@
-import axios from "axios";
 import { create } from "zustand";
 import { router } from "expo-router";
-import { API_BASE_URL, API_ENDPOINTS } from "@/constants";
-import { LoginPayload, LoginResponse, LoginUser } from "@/types";
+import { LoginPayload, LoginResponse, LoginUser, LogoutResponse } from "@/types";
+import { signin, signout } from "@/services";
 
 type AuthStore = {
   user: LoginUser | null;
@@ -14,27 +13,24 @@ export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
 
   login: async (payload: LoginPayload) => {
-    const { data } = await axios.post<{ content: LoginResponse }>(
-      `${API_BASE_URL}${API_ENDPOINTS.auth.login}`,
-      payload,
-      { headers: { "User-Agent": "Mozilla/5.0" } }
-    );
-
-    set({ user: data.content });
+    try {
+      const res: LoginResponse = await signin(payload);
+      set({ user: res });
+    } catch (err: any) {
+      console.error("Login error:", err?.message);
+      throw err;
+    }
   },
 
   logout: async () => {
-    const token = useAuthStore.getState().user?.token;
-
-    await axios
-      .post(
-        `${API_BASE_URL}${API_ENDPOINTS.auth.logout}`,
-        { token },
-        { headers: { "User-Agent": "Mozilla/5.0" } }
-      )
-      .catch(() => {});
-
-    set({ user: null });
-    router.replace("auth/Login");
+    const token = useAuthStore.getState().user?.token!;
+    try {
+      const res: LogoutResponse = await signout({ token });
+      set({ user: null });
+      router.replace("auth/Login");
+    } catch (err: any) {
+      console.error("Logout error:", err?.message);
+      throw err;
+    }
   },
 }));
