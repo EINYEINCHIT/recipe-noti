@@ -10,7 +10,7 @@ export const RequiredAuth: React.FC<RequiredAuthProps> = ({ children }) => {
   const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
-    if (!user || !user.user_id || !user.token) {
+    if (!user || !user?.user_id || !user?.token) {
       router.replace("auth/Login");
     }
   }, [user]);

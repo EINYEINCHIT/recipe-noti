@@ -1,0 +1,1 @@
+export { NotiScreen } from "./NotiScreen";

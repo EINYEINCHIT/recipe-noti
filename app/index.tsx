@@ -1,4 +1,4 @@
-import { AuthRedirect } from '@/components';
+import { AuthRedirect } from "@/components";
 
 const Index = () => {
   return <AuthRedirect />;

@@ -9,9 +9,23 @@ export const API_ENDPOINTS = {
     login: "/api/auth/sign-in",
     logout: "/api/auth/sign-out",
   },
+  customer: {
+    findAll: "/api/customer/all",
+  },
   noti: {
     subscribe: "/api/noti/subscribe",
     findAll: "/api/noti/staff/notification",
+  },
+  room: {
+    findAll: "/api/chat/room",
+    findOne: (roomId: number) => `/api/chat/room/${roomId}`,
+    update: "/api/chat/room",
+  },
+  service: {
+    findAll: "/api/chat/service",
+  },
+  message: {
+    findAll: "/api/chat/message",
   }
 } as const;
 

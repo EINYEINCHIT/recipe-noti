@@ -1,13 +1,19 @@
-import { useColorScheme, StyleSheet } from "react-native";
-import { Tabs } from "expo-router";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { Colors } from "@/constants";
+import { StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { router, Tabs } from "expo-router";
+import { Feather, MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@/hooks";
+import { useAuthStore } from "@/stores";
 import { RequiredAuth } from "@/components";
 
 const TAB_ICONS = {
-  Noti: { focused: "notifications", unfocused: "notifications-outline" },
-  Chat: { focused: "chat-bubble", unfocused: "chat-bubble-outline" },
-  Rooms: { focused: "desktop", unfocused: "desktop-outline" },
+  "Noti": {
+    focused: "notifications",
+    unfocused: "notifications-outline",
+  },
+  "Room": {
+    focused: "desktop",
+    unfocused: "desktop-outline"
+  },
 } as const;
 
 type TabKey = keyof typeof TAB_ICONS;
@@ -16,19 +22,54 @@ type TabConfig = { name: TabKey; title: string };
 
 const TAB_ITEMS: readonly TabConfig[] = [
   { name: "Noti", title: "Noti" },
-  { name: "Chat", title: "Chat" },
-  { name: "Rooms", title: "Rooms" },
+  { name: "Room", title: "Room" },
 ];
 
 const TabsLayout = () => {
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme!] ?? Colors.light;
+  const { theme } = useTheme();
+  
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleLogout = () => {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel" },
+      {
+        text: "Logout",
+        onPress: async () => {
+          try {
+            await logout();
+          } catch (err: any) {
+            console.log(err);
+          }
+        },
+      },
+    ]);
+  };
+
+  const goProfile = () => {
+    router.push("profile/Me");
+  };
 
   return (
     <RequiredAuth>
       <Tabs
         screenOptions={({ route }) => ({
-          headerShown: false,
+          headerShown: true,
+          headerStyle: { backgroundColor: theme.navBackground },
+          headerBackTitle: "Back",
+          headerTintColor: theme.title,
+          headerShadowVisible: true,
+          headerTransparent: false,
+          headerRight: () => (
+            <>
+              <TouchableOpacity onPress={goProfile} style={styles.headerBtn}>
+                <Feather name="user" size={24} color={theme.navIconColor} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleLogout} style={styles.headerBtn}>
+                <MaterialIcons name="logout" size={24} color={theme.navIconColor} />
+              </TouchableOpacity>
+            </>
+          ),
           tabBarStyle: {
             backgroundColor: theme.bottomNavBackground,
             paddingTop: 5,
@@ -38,24 +79,13 @@ const TabsLayout = () => {
           tabBarInactiveTintColor: theme.iconColor,
           tabBarLabelStyle: { fontSize: 12 },
           tabBarIcon: ({ focused }) => {
-            const iconSet = TAB_ICONS[route.name as keyof typeof TAB_ICONS];
-            const iconName = focused ? iconSet.focused : iconSet.unfocused;
-            const iconColor = focused ? theme.iconColorFocused : theme.iconColor;
+            const iconSet = TAB_ICONS[route.name as TabKey];
+            const iconName = focused ? iconSet?.focused : iconSet?.unfocused;
+            const iconColor = focused
+              ? theme.iconColorFocused
+              : theme.iconColor;
 
-            switch (route.name) {
-              case "Noti":
-                return (
-                  <Ionicons name={iconName} size={24} color={iconColor} />
-                );
-
-              case "Chat":
-                return (
-                  <MaterialIcons name={iconName} size={24} color={iconColor} />
-                );
-
-              default:
-                return <Ionicons name={iconName} size={24} color={iconColor} />;
-            }
+            return <Ionicons name={iconName} size={24} color={iconColor} />;
           },
         })}
       >
@@ -73,4 +103,8 @@ const TabsLayout = () => {
 
 export default TabsLayout;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  headerBtn: {
+    marginRight: 20,
+  },
+});

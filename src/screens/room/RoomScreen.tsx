@@ -5,7 +5,7 @@ import {
   Spacer,
 } from "@/components";
 
-const Rooms = () => {
+export const RoomScreen = () => {
   return (
     <MyContainer style={styles.container}>
       <Spacer />
@@ -15,8 +15,6 @@ const Rooms = () => {
     </MyContainer>
   );
 };
-
-export default Rooms;
 
 const styles = StyleSheet.create({
   container: {
