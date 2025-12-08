@@ -1,19 +1,18 @@
-import { useColorScheme, Appearance, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { Stack, router } from "expo-router";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import { Colors } from "@/constants";
-import { AuthProvider } from "@/context";
-import { useAuth, useNotification } from "@/hooks";
+import { ThemeProvider } from "@/context";
+import { useTheme, useNotification } from "@/hooks";
+import { useAuthStore } from "@/stores";
 import { subscribeNoti } from "@/services";
 import { SubscriberTypeEnum } from "@/types";
-import { useEffect } from "react";
 
 const RootLayoutContent = () => {
-  useEffect(() => {
-    Appearance.setColorScheme("light");
-  }, []);
+  const { theme } = useTheme();
 
-  const { user, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
 
   const { fcmToken, permissionStatus } = useNotification();
 
@@ -57,9 +56,6 @@ const RootLayoutContent = () => {
     router.push("profile/Me");
   };
 
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme!] ?? Colors.light;
-
   return (
     <Stack
       screenOptions={{
@@ -95,9 +91,9 @@ const RootLayoutContent = () => {
 };
 
 const RootLayout = () => (
-  <AuthProvider>
+  <ThemeProvider>
     <RootLayoutContent />
-  </AuthProvider>
+  </ThemeProvider>
 );
 
 export default RootLayout;
