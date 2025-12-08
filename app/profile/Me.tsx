@@ -4,15 +4,18 @@ import {
   MyText,
   Spacer,
 } from "@/components";
+import { RequiredAuth } from "@/components";
 
 const Me = () => {
   return (
-    <MyContainer style={styles.container}>
-      <Spacer />
-      <MyText title={false} style={styles.title}>
-        This is Me page.
-      </MyText>
-    </MyContainer>
+    <RequiredAuth>
+      <MyContainer style={styles.container}>
+        <Spacer />
+        <MyText title={false} style={styles.title}>
+          This is Me page.
+        </MyText>
+      </MyContainer>
+    </RequiredAuth>
   )
 };
 

@@ -1,18 +1,19 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { API_BASE_URL } from "@/constants";
-import { currentUser, currentLogout } from "@/context";
+import { useAuthStore } from "@/stores";
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
 });
 
 function getAuthToken(): string | undefined {
-  return currentUser?.token;
+  return useAuthStore.getState().user?.token;
 }
 
 function handleAuthError(status?: number) {
   if (status === 401 || status === 403) {
-    currentLogout?.();
+    const logout = useAuthStore.getState().logout;
+    logout();
   }
 }
 

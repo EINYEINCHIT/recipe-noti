@@ -17,7 +17,7 @@ import {
   MyTextInput,
   Spacer,
 } from "@/components";
-import { useAuth } from "@/hooks";
+import { useAuthStore } from "@/stores";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("zaw@chanjao.com");
@@ -26,7 +26,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
 
   const handleLogin = async () => {
 

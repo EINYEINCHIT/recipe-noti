@@ -1,7 +1,7 @@
-import { Redirect } from "expo-router";
+import { AuthRedirect } from '@/components';
 
 const Index = () => {
-  return <Redirect href="/auth/Login" />;
+  return <AuthRedirect />;
 };
 
 export default Index;
