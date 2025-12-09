@@ -14,27 +14,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
 
   login: async (payload: LoginPayload) => {
-    try {
-      const res: LoginResponse = await signin(payload);
-      set({ user: res });
-      setAxiosAuthToken(res.token);
-    } catch (err: any) {
-      console.warn("Login Error: ", err);
-      throw err;
-    }
+    const res: LoginResponse = await signin(payload);
+    set({ user: res });
+    setAxiosAuthToken(res.token);
+    router.replace("(tabs)/Noti");
   },
 
   logout: async () => {
     const token = useAuthStore.getState().user?.token!;
-    try {
-      const res: LogoutResponse = await signout({ token });
-      setAxiosAuthToken(null);
-      set({ user: null });
-      router.replace("auth/Login");
-    } catch (err: any) {
-      console.warn("Logout Error: ", err);
-      throw err;
-    }
+    const res: LogoutResponse = await signout({ token });
+    set({ user: null });
+    setAxiosAuthToken(null);
+    router.replace("auth/Login");
   },
 }));
 

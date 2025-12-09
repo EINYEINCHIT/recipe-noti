@@ -1,12 +1,9 @@
-export enum SubscriberTypeEnum {
-  STAFF = "STAFF",
-  CUSTOMER = "CUSTOMER",
-}
+import { UserTypeEnum } from "./auth";
 
 export interface SubscribeNotiPayload {
   fcm_token: string;
   user_id: number;
-  type: SubscriberTypeEnum;
+  type: UserTypeEnum;
   session_id: number;
 }
 
@@ -44,4 +41,13 @@ export interface NotificationListResponse {
   currentPage: number;
   totalPage: number;
   unseen_count: number;
+}
+
+export interface SeenNotiPayload {
+  user_id: number;
+}
+
+export interface ReadNotiPayload {
+  noti_id: number;
+  user_id: number;
 }

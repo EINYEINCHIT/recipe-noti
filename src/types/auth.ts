@@ -12,6 +12,11 @@ export enum RoleEnum {
   STAFF = "STAFF",
 }
 
+export enum UserTypeEnum {
+  STAFF = "STAFF",
+  CUSTOMER = "CUSTOMER",
+}
+
 export interface LoginUser {
   user_id: number;
   username: string;

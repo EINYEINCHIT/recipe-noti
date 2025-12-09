@@ -1,3 +1,5 @@
+import { UserTypeEnum } from "./auth";
+
 export enum RoomStatusEnum {
   OPEN = "OPEN",
   CLOSED = "CLOSED",
@@ -97,6 +99,13 @@ export interface OrderMessage {
   content: string;
 }
 
+export interface Membership {
+  id: number; 
+  user_id: number;
+  room_id: number;
+  type: UserTypeEnum;
+}
+
 export interface Tag {
   id: number;
   service_id: number;
@@ -124,12 +133,7 @@ export interface Room {
   roomTags: RoomTag[];
   service: Service;
   messages: Message[];
-}
-
-export interface UpdateRoomPayload {
-  room_id: number;
-  seen_by_staff?: boolean;
-  seen_by_customer?: boolean;
+  memberships: Membership[];
 }
 
 export interface RoomListPayload {
@@ -170,5 +174,17 @@ export interface MessageListResponse {
   data: Message[];
   currentPage: number;
   totalPage: number;
+}
+
+export interface UpdateRoomPayload {
+  room_id: number;
+  seen_by_staff?: boolean;
+  seen_by_customer?: boolean;
+}
+
+export interface JoinRoomPayload {
+  room_id: number,
+  user_id: number,
+  type: UserTypeEnum,
 }
 
