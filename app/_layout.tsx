@@ -26,7 +26,7 @@ const RootLayoutContent = () => {
           type: SubscriberTypeEnum.STAFF,
         });
       } catch (err) {
-        console.warn("Subscribe notification failed", err);
+        console.warn("Subscription Error: ", err);
       }
     };
 

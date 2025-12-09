@@ -39,7 +39,7 @@ const TabsLayout = () => {
           try {
             await logout();
           } catch (err: any) {
-            console.log(err);
+            console.warn(err);
           }
         },
       },

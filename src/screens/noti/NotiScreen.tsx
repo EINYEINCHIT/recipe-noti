@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList, Alert } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
-import { router } from "expo-router";
 import { Colors } from "@/constants";
 import { Notification, NotificationListResponse } from "@/types";
 import { findAllNoti } from "@/services";
@@ -42,7 +41,7 @@ export const NotiScreen = () => {
       setHasMore(res.data.length === LIMIT);
 
     } catch (err: any) {
-      setError(err?.message ?? "Notification not found!");
+      setError(err?.message ?? "Notification not found.");
     } finally {
       setLoading(false);
     }

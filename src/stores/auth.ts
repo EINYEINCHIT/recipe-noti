@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const res: LoginResponse = await signin(payload);
       set({ user: res });
     } catch (err: any) {
-      console.error("Login error:", err?.message);
+      console.warn("Login Error: ", err);
       throw err;
     }
   },
@@ -29,7 +29,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ user: null });
       router.replace("auth/Login");
     } catch (err: any) {
-      console.error("Logout error:", err?.message);
+      console.warn("Logout Error: ", err);
       throw err;
     }
   },

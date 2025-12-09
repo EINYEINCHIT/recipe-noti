@@ -1,7 +1,7 @@
 import { MeScreen } from "@/screens";
 
-const ProfileRoute = () => {
+const MeRoute = () => {
   return <MeScreen />;
 };
 
-export default ProfileRoute;
+export default MeRoute;
