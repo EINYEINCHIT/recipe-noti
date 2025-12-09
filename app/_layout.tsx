@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/context";
 import { useTheme, useNotification } from "@/hooks";
 import { useAuthStore } from "@/stores";
 import { subscribeNoti } from "@/services";
-import { SubscriberTypeEnum } from "@/types";
+import { UserTypeEnum } from "@/types";
 
 const RootLayoutContent = () => {
   const { theme } = useTheme();
@@ -23,7 +23,7 @@ const RootLayoutContent = () => {
           fcm_token: fcmToken,
           user_id: user?.user_id,
           session_id: user?.session_id,
-          type: SubscriberTypeEnum.STAFF,
+          type: UserTypeEnum.STAFF,
         });
       } catch (err) {
         console.warn("Subscription Error: ", err);
@@ -43,9 +43,11 @@ const RootLayoutContent = () => {
         headerTransparent: false,
       }}
     >
-      <Stack.Screen name="auth/Login" options={{ headerShown: false }} />
-      <Stack.Screen name="profile/Me" options={{ title: "Profile", headerShown: true }} />
+      <Stack.Screen name="auth/login" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/me" options={{ title: "Profile", headerShown: true }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="messenger/[roomId]" options={{ title: "Messenger", headerShown: true }} />
+      <Stack.Screen name="redirect/[token]" options={{ title: "Redirect", headerShown: true }} />
     </Stack>
   );
 };

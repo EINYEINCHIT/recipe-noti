@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const res: LoginResponse = await signin(payload);
     set({ user: res });
     setAxiosAuthToken(res.token);
-    router.replace("(tabs)/Noti");
+    router.replace("(tabs)/noti");
   },
 
   logout: async () => {
@@ -25,7 +25,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const res: LogoutResponse = await signout({ token });
     set({ user: null });
     setAxiosAuthToken(null);
-    router.replace("auth/Login");
+    router.replace("auth/login");
   },
 }));
 

@@ -15,11 +15,14 @@ export const API_ENDPOINTS = {
   noti: {
     subscribe: "/api/noti/subscribe",
     findAll: "/api/noti/staff/notification",
+    seen: "api/noti/staff/notification/seen",
+    read: "api/noti/staff/notification/read",
   },
   room: {
     findAll: "/api/chat/room",
     findOne: (roomId: number) => `/api/chat/room/${roomId}`,
     update: "/api/chat/room",
+    join: "api/chat/room/join",
   },
   service: {
     findAll: "/api/chat/service",

@@ -9,9 +9,13 @@ interface RequiredAuthProps {
 export const RequiredAuth: React.FC<RequiredAuthProps> = ({ children }) => {
   const user = useAuthStore((state) => state.user);
 
+  const goLogin = () => {
+    router.replace("auth/login");
+  };
+
   useEffect(() => {
     if (!user || !user?.user_id || !user?.token) {
-      router.replace("auth/Login");
+      goLogin();
     }
   }, [user]);
 

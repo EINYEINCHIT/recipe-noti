@@ -40,9 +40,9 @@ export const LoginScreen = () => {
 
     try {
       await login({ email, password, device_name: "Mobile" });
-      router.replace("(tabs)/Noti");
     } catch (err: any) {
-      setError(err?.message ?? "Something went wrong.");
+      console.warn("Login Error: ", err);
+      setError(err?.message ?? "Login Error.");
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, Text, FlatList, Alert } from "react-native";
+import { View, StyleSheet, Text, FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
+import { router } from "expo-router";
 import { Colors } from "@/constants";
 import { Notification, NotificationListResponse } from "@/types";
-import { findAllNoti } from "@/services";
+import { findAllNoti, readNoti } from "@/services";
 import { useAuthStore } from "@/stores";
 import NotiItem from "./components/NotiItem";
 
@@ -41,19 +42,30 @@ export const NotiScreen = () => {
       setHasMore(res.data.length === LIMIT);
 
     } catch (err: any) {
-      setError(err?.message ?? "Notification not found.");
+      console.warn("Notification Error: ", err);
+      setError(err?.message ?? "Notification Error.");
     } finally {
       setLoading(false);
     }
   }, []);
+
+  const goRedirect = (token: string) => {
+    router.push(`/redirect/${token}`);
+  };
 
   // Call getAllNoti() when component mounted
   useEffect(() => {
     getAllNoti(page);
   }, [getAllNoti, page]);
 
-  const onClickNoti = async (noti: any) => {
-    Alert.alert("TO DO")
+  const onClickNoti = async (noti: Notification) => {
+    try {
+      await readNoti({ noti_id: noti?.id, user_id: user?.user_id! });
+      const token = noti?.redirect_content?.page_token;
+      goRedirect(token);
+    } catch (err: any) {
+      console.warn("Read Noti Error: ", err);
+    }
   };
 
   return (
@@ -62,7 +74,7 @@ export const NotiScreen = () => {
 
       {loading && page === 1 ? (
         <View style={[styles.loadingContainer, { marginTop: 20 } ]}>
-          <ActivityIndicator color={Colors.primary[500]} animating={true} size="large" />
+          <ActivityIndicator color={Colors.primary[500]} size="large" />
         </View>
       ) : (
         <FlatList
@@ -83,7 +95,7 @@ export const NotiScreen = () => {
           onEndReachedThreshold={0.5}
           ListFooterComponent={() => (
             loading && page > 1
-              ? <View style={[styles.loadingContainer, { marginBottom: 50 } ]}><ActivityIndicator color={Colors.primary[500]} animating={true} size="large" /></View>
+              ? <View style={[styles.loadingContainer, { marginBottom: 50 } ]}><ActivityIndicator color={Colors.primary[500]} size="large" /></View>
               : null
           )}
         />

@@ -6,11 +6,11 @@ import { useAuthStore } from "@/stores";
 import { RequiredAuth } from "@/components";
 
 const TAB_ICONS = {
-  "Noti": {
+  "noti": {
     focused: "notifications",
     unfocused: "notifications-outline",
   },
-  "Room": {
+  "room": {
     focused: "desktop",
     unfocused: "desktop-outline"
   },
@@ -21,8 +21,8 @@ type TabKey = keyof typeof TAB_ICONS;
 type TabConfig = { name: TabKey; title: string };
 
 const TAB_ITEMS: readonly TabConfig[] = [
-  { name: "Noti", title: "Noti" },
-  { name: "Room", title: "Room" },
+  { name: "noti", title: "Noti" },
+  { name: "room", title: "Room" },
 ];
 
 const TabsLayout = () => {
@@ -47,7 +47,7 @@ const TabsLayout = () => {
   };
 
   const goProfile = () => {
-    router.push("profile/Me");
+    router.push("profile/me");
   };
 
   return (
