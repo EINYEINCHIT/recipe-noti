@@ -1,22 +1,22 @@
 import { axiosInstance } from "./axios.service";
-import { SubscribeNotiPayload, NotificationListPayload, NotificationListResponse } from "@/types";
 import { API_BASE_URL, API_ENDPOINTS } from "@/constants";
+import {
+  SubscribeNotiPayload,
+  SubscribeNotiResponse,
+  NotificationListPayload,
+  NotificationListResponse,
+} from "@/types";
 
 export const subscribeNoti = async (data: SubscribeNotiPayload) => {
-  const { fcm_token: fcmToken, user_id, type, session_id } = data;
-  return axiosInstance.post(
+  const response = await axiosInstance.post<{ content: SubscribeNotiResponse }>(
     `${API_BASE_URL}${API_ENDPOINTS.noti.subscribe}`,
-    {
-      fcm_token: fcmToken,
-      user_id,
-      session_id,
-      type,
-    },
+    data
   );
+  return response.data.content;
 };
 
 export const findAllNoti = async (params: NotificationListPayload) => {
-  const response = await axiosInstance.get<{ content: NotificationListResponse }>(
+  const response = await axiosInstance.get<{content: NotificationListResponse}>(
     `${API_BASE_URL}${API_ENDPOINTS.noti.findAll}`,
     { params }
   );

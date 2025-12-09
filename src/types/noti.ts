@@ -1,6 +1,6 @@
 export enum SubscriberTypeEnum {
-  STAFF = 'STAFF',
-  CUSTOMER = 'CUSTOMER',
+  STAFF = "STAFF",
+  CUSTOMER = "CUSTOMER",
 }
 
 export interface SubscribeNotiPayload {
@@ -8,6 +8,12 @@ export interface SubscribeNotiPayload {
   user_id: number;
   type: SubscriberTypeEnum;
   session_id: number;
+}
+
+export interface SubscribeNotiResponse {
+  id: number;
+  user_id: number;
+  fcm_token: string;
 }
 
 export interface Notification {
@@ -34,8 +40,8 @@ export interface NotificationListPayload {
 }
 
 export interface NotificationListResponse {
-  currentPage: number;
   data: Notification[];
+  currentPage: number;
   totalPage: number;
   unseen_count: number;
 }
