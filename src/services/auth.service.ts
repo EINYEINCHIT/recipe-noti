@@ -1,4 +1,4 @@
-import { axiosInstance } from "./axios.service";
+import { appApi } from "./axios.service";
 import { API_ENDPOINTS } from "@/constants";
 import {
   LoginPayload,
@@ -8,7 +8,7 @@ import {
 } from "@/types";
 
 export const signin = async (data: LoginPayload) => {
-  const response = await axiosInstance.post<{ content: LoginResponse }>(
+  const response = await appApi.post<{ content: LoginResponse }>(
     `${API_ENDPOINTS.auth.login}`,
     data
   );
@@ -16,7 +16,7 @@ export const signin = async (data: LoginPayload) => {
 };
 
 export const signout = async (data: LogoutPayload) => {
-  const response = await axiosInstance.post<{ content: LogoutResponse }>(
+  const response = await appApi.post<{ content: LogoutResponse }>(
     `${API_ENDPOINTS.auth.logout}`,
     data
   );

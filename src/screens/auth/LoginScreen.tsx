@@ -8,7 +8,6 @@ import {
   Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { Colors } from "@/constants";
 import {
   MyContainer,
@@ -20,8 +19,8 @@ import {
 import { useAuthStore } from "@/stores";
 
 export const LoginScreen = () => {
-  const [email, setEmail] = useState<string>("zaw@chanjao.com");
-  const [password, setPassword] = useState<string>("password");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,13 +49,13 @@ export const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <MyContainer style={styles.container}>
+      <MyContainer>
 
         {error && (<Text style={{ color: Colors.error }}>{error}</Text>)}
 
         <Spacer />
 
-        <MyText title={false} style={styles.title}>
+        <MyText style={styles.title}>
           Login to your account
         </MyText>
 
@@ -88,7 +87,7 @@ export const LoginScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <MyButton onPress={handleLogin} loading={loading}>
+        <MyButton onPress={handleLogin} loading={loading} style={styles.loginBtn}>
           <Text style={{ color: Colors.white }}>Login</Text>
         </MyButton>
       </MyContainer>
@@ -97,14 +96,9 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   title: {
-    textAlign: "center",
     fontSize: 18,
+    fontWeight: 500,
     marginBottom: 30,
   },
   input: {
@@ -119,5 +113,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
     right: 15,
+  },
+  loginBtn: {
+    width: "80%",
   },
 });

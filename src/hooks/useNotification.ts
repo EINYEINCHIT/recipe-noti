@@ -1,63 +1,50 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import messaging from "@react-native-firebase/messaging";
+import { firebaseMessagingService } from "@/services/firebase.service";
 
 export function useNotification() {
   const [fcmToken, setFcmToken] = useState("");
   const [permissionStatus, setPermissionStatus] = useState(false);
 
-  // Request FCM Permission
-  const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-    setPermissionStatus(enabled);
-    return enabled;
-  };
-
-  // Setup Notifications
   useEffect(() => {
+    let isMounted = true;
+
     const setup = async () => {
-      const granted = await requestUserPermission();
+      const granted = await firebaseMessagingService.requestUserPermission();
+
+      if (!isMounted) return;
+
+      setPermissionStatus(granted);
 
       if (granted) {
-        const token = await messaging().getToken();
-        setFcmToken(token);
-        console.log("*** FCM Token:", token);
+        const token = await firebaseMessagingService.getFcmToken();
+
+        if (!isMounted) return;
+
+        if (token) {
+          setFcmToken(token);
+          console.log("*** FCM Token:", token);
+        }
       } else {
         console.log("*** Permission denied");
       }
 
-      // When app is opened from a quit state
-      messaging()
-        .getInitialNotification()
-        .then((remoteMessage) => {
-          if (remoteMessage) {
-            // console.log("*** Opened from quit state", JSON.stringify(remoteMessage.notification));
-          }
-        });
-
-      // App opened from background
-      messaging().onNotificationOpenedApp((remoteMessage) => {
-        // console.log("*** Opened from background", JSON.stringify(remoteMessage.notification));
-      });
-
-      // Background message handler
-      messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-        // console.log("*** Background message", JSON.stringify(remoteMessage));
-      });
+      firebaseMessagingService.registerNotificationLifecycleHandlers();
     };
 
     setup();
 
-    // Foreground messages
-    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      Alert.alert("*** Foreground Message", JSON.stringify(remoteMessage));
-    });
+    const unsubscribe =
+      firebaseMessagingService.subscribeToForegroundMessages(
+        (remoteMessage) => {
+          Alert.alert("*** Foreground Message", JSON.stringify(remoteMessage));
+        }
+      );
 
-    return unsubscribe;
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
   }, []);
 
   return {

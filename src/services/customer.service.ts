@@ -1,9 +1,9 @@
-import { axiosInstance } from "./axios.service";
+import { appApi } from "./axios.service";
 import { API_ENDPOINTS } from "@/constants";
-import { CustomerListPayload, CustomerListResponse } from "@/types";
+import { CustomerListPayload, Customer } from "@/types";
 
 export const findAllCustomer = async (params: CustomerListPayload) => {
-  const response = await axiosInstance.get<{ content: CustomerListResponse }>(
+  const response = await appApi.get<{ content: Customer[] }>(
     `${API_ENDPOINTS.customer.findAll}`,
     { params }
   );

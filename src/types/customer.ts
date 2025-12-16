@@ -1,8 +1,8 @@
 export interface CustomerListPayload {
-  user_id: number;
+  user_id: number[];
 }
 
-export interface CustomerListResponse {
+export interface Customer {
   id: number;
   reminder_alert: boolean;
   session_token: string;

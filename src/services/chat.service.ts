@@ -1,4 +1,4 @@
-import { axiosInstance } from "./axios.service";
+import { appApi } from "./axios.service";
 import { API_ENDPOINTS } from "@/constants";
 import {
   Room,
@@ -13,7 +13,7 @@ import {
 } from "@/types";
 
 export const findAllRoom = async (params: RoomListPayload) => {
-  const response = await axiosInstance.get<{ content: RoomListResponse }>(
+  const response = await appApi.get<{ content: RoomListResponse }>(
     `${API_ENDPOINTS.room.findAll}`,
     { params }
   );
@@ -21,14 +21,14 @@ export const findAllRoom = async (params: RoomListPayload) => {
 };
 
 export const findOneRoom = async (roomId: number) => {
-  const response = await axiosInstance.get<{ content: Room }>(
+  const response = await appApi.get<{ content: Room }>(
     `${API_ENDPOINTS.room.findOne(roomId)}`
   );
   return response.data.content;
 };
 
 export const findAllService = async (params: ServiceListPayload) => {
-  const response = await axiosInstance.get<{ content: ServiceListResponse }>(
+  const response = await appApi.get<{ content: ServiceListResponse }>(
     `${API_ENDPOINTS.service.findAll}`,
     { params }
   );
@@ -36,7 +36,7 @@ export const findAllService = async (params: ServiceListPayload) => {
 };
 
 export const findAllMessage = async (params: MessageListPayload) => {
-  const response = await axiosInstance.get<{ content: MessageListResponse }>(
+  const response = await appApi.get<{ content: MessageListResponse }>(
     `${API_ENDPOINTS.message.findAll}`,
     { params }
   );
@@ -44,7 +44,7 @@ export const findAllMessage = async (params: MessageListPayload) => {
 };
 
 export const updateRoom = async (data: UpdateRoomPayload) => {
-  const response = await axiosInstance.put<{content: any}>(
+  const response = await appApi.put<{content: any}>(
     `${API_ENDPOINTS.room.update}`,
     data
   );
@@ -52,7 +52,7 @@ export const updateRoom = async (data: UpdateRoomPayload) => {
 };
 
 export const joinRoom = async (data: JoinRoomPayload) => {
-  const response = await axiosInstance.post<{ content: any }>(
+  const response = await appApi.post<{ content: any }>(
     `${API_ENDPOINTS.room.join}`,
     data
   );

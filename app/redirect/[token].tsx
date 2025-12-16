@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { View, ActivityIndicator, Linking, Alert } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { findOneRoom, joinRoom } from "@/services";
+import { findOneRoom, joinRoom, getShopOrder } from "@/services";
+import { Colors } from "@/constants";
 import { useAuthStore } from "@/stores";
 import { UserTypeEnum } from "@/types";
 
@@ -10,7 +11,7 @@ export default function Redirect() {
 
   const { token } = useLocalSearchParams<{ token: string }>();
 
-  const handleJoinRoom = async (roomId: number, page: string) => {
+  const handleJoinRoom = async (roomId: number) => {
     let isMember: boolean = false;
 
     try {
@@ -19,22 +20,30 @@ export default function Redirect() {
       isMember = !!members?.find((item: any) => item.user_id === user?.user_id);
 
       if (!isMember) {
-        await joinRoom({
-          room_id: roomId,
-          user_id: user?.user_id!,
-          type: UserTypeEnum.STAFF,
-        });
+        Alert.alert("Logout", "Are you sure you want to join room?", [
+          { text: "Cancel" },
+          {
+            text: "Logout",
+            onPress: async () => {
+              await joinRoom({
+                room_id: roomId,
+                user_id: user?.user_id!,
+                type: UserTypeEnum.STAFF,
+              });
+            },
+          },
+        ]);
       }
 
-      goRoom(roomId, page);
+      goRoom(roomId);
     } catch (err) {
       console.warn("Join Room Error: ", err);
       goNoti();
     }
   };
 
-  const goRoom = (roomId: number, page: string) => {
-    router.replace(`/${page}/${roomId}`);
+  const goRoom = (roomId: number) => {
+    router.replace(`/messenger/${roomId}`);
   };
 
   const goNoti = () => {
@@ -45,20 +54,24 @@ export default function Redirect() {
     router.back();
   };
 
-  const goOrder = () => {
-    Alert.alert("go order");
+  const goLabOrder = async (orderId: string) => {
+    Alert.alert("TODO: go lab order");
   };
 
-  const goRecipeDesign = () => {
-    Alert.alert("go recipe design");
+  const goRecipeDesign = async (
+    page: string | null,
+    recipeId: string,
+    packagingId: string
+  ) => {
+    Alert.alert("TODO: go recipe design");
   };
 
-  const goRecipeVersion = () => {
-    Alert.alert("go recipe version");
+  const goRecipeVersion = async (page: string | null, recipeId: string) => {
+    Alert.alert("TODO: go recipe version");
   };
 
-  const goLabService = () => {
-    Alert.alert("go lab service");
+  const goLabService = async (page: string | null, serviceId: string) => {
+    Alert.alert("TODO: go lab service");
   };
 
   useEffect(() => {
@@ -82,18 +95,18 @@ export default function Redirect() {
         const service_id = params.get("service_id");
 
         if (room_id) {
-          handleJoinRoom(parseInt(room_id), page!);
+          handleJoinRoom(parseInt(room_id));
         } else if (order_id) {
-          goOrder();
+          goLabOrder(order_id);
         } else if (packaging_id && recipe_id) {
-          goRecipeDesign();
+          goRecipeDesign(page, recipe_id, packaging_id);
         } else if (recipe_id) {
-          goRecipeVersion();
+          goRecipeVersion(page, recipe_id);
         } else if (service_id) {
-          goLabService();
+          goLabService(page, service_id);
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       goNoti();
     }
   }, []);
@@ -106,7 +119,7 @@ export default function Redirect() {
         alignItems: "center",
       }}
     >
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={Colors.primary[500]} />
     </View>
   );
 }

@@ -7,8 +7,12 @@ export const MyContainer = ({ style, ...props }: MyContainerProps) => {
 
   return (
     <SafeAreaView
+      edges={["bottom"]} // Only apply bottom safe area padding; top/left/right padding is OFF
       style={[
         {
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
           backgroundColor: theme.background,
         },
         style,
@@ -17,4 +21,3 @@ export const MyContainer = ({ style, ...props }: MyContainerProps) => {
     />
   );
 };
-

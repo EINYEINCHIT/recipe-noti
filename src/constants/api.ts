@@ -1,7 +1,10 @@
-export const API_BASE_URL = "https://chat0.myskinrecipes.com";
+export const API_BASE_URL = "http://192.168.100.146:8000";
+export const SHOP_BASE_URL = "https://stage0.myskinrecipes.com/shop/";
+export const SOCKET_SERVER = "http://192.168.100.146:8000"
+
 /**
  * - Staging → https://chat0.myskinrecipes.com
- * - Local → http://192.168.100.144:8000
+ * - Local → http://192.168.100.146:8000
  */
 
 export const API_ENDPOINTS = {
@@ -29,7 +32,16 @@ export const API_ENDPOINTS = {
   },
   message: {
     findAll: "/api/chat/message",
-  }
+  },
+  file: {
+    chat: "/api/file/chat",
+    machine: "api/file/machine",
+    recipes: "api/file/recipes",
+    upload: "api/file/upload",
+  },
+  shop: {
+    getOrder: "/module/ajaxmodule/getOrder",
+  },
 } as const;
 
 export type ApiEndpoints = typeof API_ENDPOINTS;

@@ -1,9 +1,13 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { API_BASE_URL } from "@/constants";
+import { API_BASE_URL, SHOP_BASE_URL } from "@/constants";
 import EventEmitter from "events";
 
-export const axiosInstance: AxiosInstance = axios.create({
+export const appApi: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
+});
+
+export const shopApi: AxiosInstance = axios.create({
+  baseURL: SHOP_BASE_URL,
 });
 
 export const authEmitter = new EventEmitter();
@@ -13,13 +17,16 @@ function handleAuthError(status?: number) {
   }
 }
 
-let authToken: string | null = null;
+let authToken: string | null;
 export function setAxiosAuthToken(token: string | null) {
   authToken = token;
 }
+export function getAxiosAuthToken(): string | null {
+  return authToken;
+}
 
 // Request interceptor
-axiosInstance.interceptors.request.use(
+appApi.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     if (authToken) config.headers["Authorization"] = `Bearer ${authToken}`;
     config.headers["User-Agent"] = "Mozilla/5.0";
@@ -29,7 +36,7 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response interceptor
-axiosInstance.interceptors.response.use(
+appApi.interceptors.response.use(
   (response) => response,
   (error) => {
     handleAuthError(error.response?.status);

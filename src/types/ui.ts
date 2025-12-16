@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { PressableProps, StyleProp, ViewStyle, TextInputProps } from "react-native";
+import { PressableProps, StyleProp, TextStyle, ViewStyle, TextInputProps } from "react-native";
 
 export interface MyButtonProps extends PressableProps {
   style?: StyleProp<ViewStyle>;
@@ -17,8 +17,8 @@ export interface MyContainerProps {
 }
 
 export interface MyTextProps {
-  style?: StyleProp<ViewStyle>;
-  title: boolean;
+  style?: StyleProp<TextStyle>;
+  title?: boolean;
   children?: ReactNode;
 }
 

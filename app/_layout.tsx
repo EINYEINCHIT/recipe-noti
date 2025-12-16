@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
 import { Stack } from "expo-router";
 import { ThemeProvider } from "@/context";
 import { useTheme, useNotification } from "@/hooks";
@@ -17,7 +18,7 @@ const RootLayoutContent = () => {
   useEffect(() => {
     const doSubscribe = async () => {
       if (!permissionStatus || !fcmToken || !user) return;
-            
+
       try {
         await subscribeNoti({
           fcm_token: fcmToken,
@@ -54,7 +55,9 @@ const RootLayoutContent = () => {
 
 const RootLayout = () => (
   <ThemeProvider>
-    <RootLayoutContent />
+    <PaperProvider>
+      <RootLayoutContent />
+    </PaperProvider>
   </ThemeProvider>
 );
 

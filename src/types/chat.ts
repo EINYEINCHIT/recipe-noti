@@ -13,6 +13,13 @@ export enum MessageTypeEnum {
   ORDER = "ORDER",
 }
 
+export enum MembershipTypeEnum {
+  STAFF = "STAFF",
+  CUSTOMER = "CUSTOMER",
+  BOT = "BOT",
+  SUPPLIER = "SUPPLIER",
+}
+
 export enum MessageSourceEnum {
   WS = "WS",
   API = "API",
@@ -60,7 +67,7 @@ export interface Message {
   room_id: number;
   user_id: number;
   type: MessageTypeEnum;
-  source: MessageSourceEnum;
+  source: MessageSource;
   seen_by_staff: boolean;
   seen_by_customer: boolean;
   parent_message_id: number;
@@ -68,6 +75,7 @@ export interface Message {
   fileMessage: FileMessage;
   transferMessage: TransferMessage;
   orderMessage: OrderMessage;
+  created_at: string;
 }
 
 export interface TextMessage {
@@ -90,6 +98,7 @@ export interface TransferMessage {
   id: number;
   message_id: number;
   service_id: number;
+  service: Service;
   room_id: number;
 }
 
@@ -103,7 +112,7 @@ export interface Membership {
   id: number; 
   user_id: number;
   room_id: number;
-  type: UserTypeEnum;
+  type: MembershipTypeEnum;
 }
 
 export interface Tag {
@@ -130,6 +139,7 @@ export interface Room {
   is_tag_room: boolean;
   last_chat_at: string;
   status: RoomStatusEnum;
+  reply_snooze_upto: string;
   roomTags: RoomTag[];
   service: Service;
   messages: Message[];
@@ -164,7 +174,8 @@ export interface ServiceListResponse {
 }
 
 export interface MessageListPayload {
-  room_id: number;
+  room_id?: number;
+  message_id?: number;
   page?: number;
   limit?: number;
   order?: string;
@@ -187,4 +198,3 @@ export interface JoinRoomPayload {
   user_id: number,
   type: UserTypeEnum,
 }
-

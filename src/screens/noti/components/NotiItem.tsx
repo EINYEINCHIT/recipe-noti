@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.gray[200],
   },
   unread: {
-    backgroundColor: Colors.primary[50],
+    backgroundColor: Colors.primary[100],
   },
   notiHeader: {
     flexDirection: "row",
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   title: {
-    fontWeight: "bold",
+    fontWeight: 700,
   },
   description: {
     color: Colors.gray[500],

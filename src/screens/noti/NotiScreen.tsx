@@ -2,14 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { router } from "expo-router";
-import { Colors } from "@/constants";
+import { Colors, LIMIT, ORDER } from "@/constants";
 import { Notification, NotificationListResponse } from "@/types";
 import { findAllNoti, readNoti } from "@/services";
 import { useAuthStore } from "@/stores";
+import { MyContainer } from "@/components";
+// components
 import NotiItem from "./components/NotiItem";
-
-const LIMIT = 30;
-const ORDER = "DESC";
 
 export const NotiScreen = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -20,11 +19,11 @@ export const NotiScreen = () => {
 
   const user = useAuthStore((state) => state.user);
 
-  const getAllNoti = useCallback(async (currentPage = 1) => {
-    console.log(`call getAllNoti with currentPage: ${currentPage}`);
-    setLoading(true);
+  const getNotifications = useCallback(async (currentPage = 1) => {
+    // console.log(`NotiScreen: call getNotifications with currentPage: ${currentPage}`);
     setError(null);
-
+    setLoading(true);
+    
     try {
       const res: NotificationListResponse = await findAllNoti({
         user_id: user?.user_id!,
@@ -55,8 +54,8 @@ export const NotiScreen = () => {
 
   // Call getAllNoti() when component mounted
   useEffect(() => {
-    getAllNoti(page);
-  }, [getAllNoti, page]);
+    getNotifications(page);
+  }, [getNotifications, page]);
 
   const onClickNoti = async (noti: Notification) => {
     try {
@@ -69,7 +68,7 @@ export const NotiScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <MyContainer>
       {error && <Text style={{ color: Colors.error }}>{error}</Text>}
 
       {loading && page === 1 ? (
@@ -77,30 +76,30 @@ export const NotiScreen = () => {
           <ActivityIndicator color={Colors.primary[500]} size="large" />
         </View>
       ) : (
-        <FlatList
-          data={notifications}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <NotiItem item={item} onClickNoti={onClickNoti} />
-          )}
-          initialNumToRender={10}
-          maxToRenderPerBatch={10}
-          windowSize={5}   
-          style={styles.notiContainer}
-          onEndReached={() => {
-            if (!loading && hasMore) {
-              setPage((prev) => prev + 1);
-            }
-          }}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={() => (
-            loading && page > 1
-              ? <View style={[styles.loadingContainer, { marginBottom: 50 } ]}><ActivityIndicator color={Colors.primary[500]} size="large" /></View>
-              : null
-          )}
-        />
+        <View style={styles.notiContainer}>
+          <FlatList
+            data={notifications}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <NotiItem item={item} onClickNoti={onClickNoti} />
+            )}
+            onEndReached={() => {
+              if (!loading && hasMore) {
+                setPage((prev) => prev + 1);
+              }
+            }}
+            onEndReachedThreshold={1.0}
+            ListFooterComponent={() => (
+              loading && page > 1
+                ? <View style={styles.loadingContainer}>
+                    <ActivityIndicator color={Colors.primary[500]} size="large" />
+                  </View>
+                : null
+            )}
+          />
+        </View>
       )}
-    </View>
+    </MyContainer>
   );
 };
 
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 50
   },
   notiContainer: {
     width: "100%",

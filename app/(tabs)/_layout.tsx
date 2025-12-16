@@ -6,11 +6,11 @@ import { useAuthStore } from "@/stores";
 import { RequiredAuth } from "@/components";
 
 const TAB_ICONS = {
-  "noti": {
+  noti: {
     focused: "notifications",
     unfocused: "notifications-outline",
   },
-  "room": {
+  room: {
     focused: "desktop",
     unfocused: "desktop-outline"
   },

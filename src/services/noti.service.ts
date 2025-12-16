@@ -1,4 +1,4 @@
-import { axiosInstance } from "./axios.service";
+import { appApi } from "./axios.service";
 import { API_ENDPOINTS } from "@/constants";
 import {
   SubscribeNotiPayload,
@@ -10,7 +10,7 @@ import {
 } from "@/types";
 
 export const subscribeNoti = async (data: SubscribeNotiPayload) => {
-  const response = await axiosInstance.post<{ content: SubscribeNotiResponse }>(
+  const response = await appApi.post<{ content: SubscribeNotiResponse }>(
     `${API_ENDPOINTS.noti.subscribe}`,
     data
   );
@@ -18,7 +18,7 @@ export const subscribeNoti = async (data: SubscribeNotiPayload) => {
 };
 
 export const findAllNoti = async (params: NotificationListPayload) => {
-  const response = await axiosInstance.get<{content: NotificationListResponse}>(
+  const response = await appApi.get<{content: NotificationListResponse}>(
     `${API_ENDPOINTS.noti.findAll}`,
     { params }
   );
@@ -26,7 +26,7 @@ export const findAllNoti = async (params: NotificationListPayload) => {
 };
 
 export const seenNoti = async (data: SeenNotiPayload) => {
-  const response = await axiosInstance.put<{ content: any }>(
+  const response = await appApi.put<{ content: any }>(
     `${API_ENDPOINTS.noti.seen}`,
     data
   );
@@ -34,7 +34,7 @@ export const seenNoti = async (data: SeenNotiPayload) => {
 };
 
 export const readNoti = async (data: ReadNotiPayload) => {
-  const response = await axiosInstance.put<{ content: any }>(
+  const response = await appApi.put<{ content: any }>(
     `${API_ENDPOINTS.noti.read}`,
     data
   );
