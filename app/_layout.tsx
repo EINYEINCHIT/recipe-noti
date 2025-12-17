@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/context";
 import { useTheme, useNotification } from "@/hooks";
 import { useAuthStore } from "@/stores";
 import { subscribeNoti } from "@/services";
+import { setAxiosAuthToken } from "@/services/axios.service";
 import { UserTypeEnum } from "@/types";
 
 const RootLayoutContent = () => {
@@ -13,6 +14,11 @@ const RootLayoutContent = () => {
 
   const user = useAuthStore((state) => state.user);
   const { fcmToken, permissionStatus } = useNotification();
+
+  // Re-apply auth token to axios after store hydration / reload
+  useEffect(() => {
+    setAxiosAuthToken(user?.token ?? null);
+  }, [user?.token]);
 
   // Subscribe device token to notifications
   useEffect(() => {
