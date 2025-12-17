@@ -35,7 +35,11 @@ export const NotiScreen = () => {
       if (currentPage === 1) {
         setNotifications(res.data);
       } else {
-        setNotifications((prev) => [...prev, ...res.data]);
+        setNotifications((prev) => {
+          const existingIds = new Set(prev.map((m) => m.id));
+          const toAppend = res.data.filter((m) => !existingIds.has(m.id));
+          return [...prev, ...toAppend];
+        });
       }
 
       setHasMore(res.data.length === LIMIT);
@@ -90,8 +94,8 @@ export const NotiScreen = () => {
           onEndReachedThreshold={1.0}
           ListFooterComponent={() => (
             loading && page > 1
-              ? <View style={styles.loadingContainer}>
-                  <ActivityIndicator color={Colors.primary[500]} size="large" />
+              ? <View style={[styles.loadingContainer, { marginVertical: 20 }]}>
+                  <ActivityIndicator color={Colors.primary[500]} size="small" />
                 </View>
               : null
           )}

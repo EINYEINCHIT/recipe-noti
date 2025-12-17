@@ -49,7 +49,7 @@ export const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <MyContainer>
+      <MyContainer style={styles.container}>
 
         {error && (<Text style={{ color: Colors.error }}>{error}</Text>)}
 
@@ -96,6 +96,11 @@ export const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   title: {
     fontSize: 18,
     fontWeight: 500,

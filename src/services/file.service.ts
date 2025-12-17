@@ -1,5 +1,5 @@
 import { appApi, getAxiosAuthToken } from "./axios.service";
-import { API_BASE_URL, API_ENDPOINTS } from "@/constants";
+import { API_SERVER, API_ENDPOINTS } from "@/constants";
 import * as FileSystem from "expo-file-system/legacy";
 import { Platform } from "react-native";
 import { UploadResponse } from "@/types";
@@ -104,7 +104,7 @@ export const downloadFile = async (
 
     const path = `${API_ENDPOINTS.file.chat}/${url}?room_id=${Number(roomId)}`;
 
-    const downloadUrl = `${API_BASE_URL}${path}`;
+    const downloadUrl = `${API_SERVER}${path}`;
 
     // First download into app cache
     const baseDir = FileSystem.cacheDirectory || "";

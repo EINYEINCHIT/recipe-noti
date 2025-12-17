@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { API_BASE_URL, SHOP_BASE_URL } from "@/constants";
+import { API_SERVER, SHOP_SERVER } from "@/constants";
 import EventEmitter from "events";
 
 export const appApi: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_SERVER,
 });
 
 export const shopApi: AxiosInstance = axios.create({
-  baseURL: SHOP_BASE_URL,
+  baseURL: SHOP_SERVER,
 });
 
 export const authEmitter = new EventEmitter();

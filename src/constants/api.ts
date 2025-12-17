@@ -1,6 +1,6 @@
-export const API_BASE_URL = "http://192.168.100.146:8000";
-export const SHOP_BASE_URL = "https://stage0.myskinrecipes.com/shop/";
-export const SOCKET_SERVER = "http://192.168.100.146:8000"
+export const API_SERVER = "https://chat0.myskinrecipes.com";
+export const SHOP_SERVER = "https://stage0.myskinrecipes.com/shop/";
+export const SOCKET_SERVER = "https://chat0.myskinrecipes.com"
 
 /**
  * - Staging → https://chat0.myskinrecipes.com

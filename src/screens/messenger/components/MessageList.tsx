@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Image,
   StyleSheet,
-  ScrollView,
 } from "react-native";
 import { Colors } from "@/constants";
 import { useMessengerStore } from "@/stores";
@@ -66,64 +65,70 @@ const MessageList: React.FC<MessageListProps> = ({
   };
 
   return (
-    <>
-      {/* {localShowAlert && orderDetails && (
-        <View style={styles.alert}>
-          <View>
-            <Text style={styles.alertText}>
-              <Text style={styles.bold}>Submitted Date:</Text>{" "}
-              {orderDetails.submitted_at}
-            </Text>
-            <Text style={styles.alertText}>
-              <Text style={styles.bold}>Amount:</Text> {orderDetails.amount}{" "}
-              {orderDetails.currency_symbol}
-            </Text>
-            <Text style={styles.alertText}>
-              <Text style={styles.bold}>Status:</Text> {orderDetails.status}
-            </Text>
+    <View style={styles.container}>
+      <View>
+        {/* {localShowAlert && orderDetails && (
+          <View style={styles.alert}>
+            <View>
+              <Text style={styles.alertText}>
+                <Text style={styles.bold}>Submitted Date:</Text>{" "}
+                {orderDetails.submitted_at}
+              </Text>
+              <Text style={styles.alertText}>
+                <Text style={styles.bold}>Amount:</Text> {orderDetails.amount}{" "}
+                {orderDetails.currency_symbol}
+              </Text>
+              <Text style={styles.alertText}>
+                <Text style={styles.bold}>Status:</Text> {orderDetails.status}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setLocalShowAlert(false);
+                onUpdateShowAlert?.(false);
+              }}
+            >
+              <Text style={styles.closeButton}>✕</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              setLocalShowAlert(false);
-              onUpdateShowAlert?.(false);
-            }}
-          >
-            <Text style={styles.closeButton}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      )} */}
-
-      <FlatList
-        inverted
-        data={messages.data}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <MessageItem
-            item={item}
-            roomId={roomId}
-            onFocus={scrollToTarget}
-          />
-        )}
-        onEndReached={loadMoreMessages}
-        onEndReachedThreshold={0.2}
-        ListFooterComponent={
-          messages.loading ? <ActivityIndicator size="large" color={Colors.primary[500]} /> : null
-        }
-      />
-
-      {/* {messageApproval && messageApproval.message && (
-        <MessageApproval
-          messageApproval={messageApproval}
-          onApprove={onApprove}
-          onReject={onReject}
-          onUpdateMessage={onUpdateApprovalMessage}
-          onUpdateInstruction={onUpdateApprovalInstruction}
+        )} */}
+        
+        <FlatList
+          inverted
+          data={messages.data}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <MessageItem
+              item={item}
+              roomId={roomId}
+              onFocus={scrollToTarget}
+            />
+          )}
+          onEndReached={loadMoreMessages}
+          onEndReachedThreshold={0.2}
+          ListFooterComponent={
+            messages.loading ? <ActivityIndicator size="small" color={Colors.primary[500]} /> : null
+          }
         />
-      )} */}
-    </>
+
+        {/* {messageApproval && messageApproval.message && (
+          <MessageApproval
+            messageApproval={messageApproval}
+            onApprove={onApprove}
+            onReject={onReject}
+            onUpdateMessage={onUpdateApprovalMessage}
+            onUpdateInstruction={onUpdateApprovalInstruction}
+          />
+        )} */}
+      </View>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MessageList;

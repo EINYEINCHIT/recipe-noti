@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { API_BASE_URL } from "@/constants";
+import { SOCKET_SERVER } from "@/constants";
 
 type MessageHandler<T = any> = (payload: T) => void;
 
@@ -16,6 +16,7 @@ class SocketService {
   }
 
   setupSocketConnection(userId: number | string, token?: string) {
+    console.log("***** setupSocketConnection");
     if (this.socket) {
       return;
     }
@@ -24,7 +25,7 @@ class SocketService {
       ? { Authorization: `Bearer ${token}` }
       : undefined;
 
-    this.socket = io(API_BASE_URL, {
+    this.socket = io(SOCKET_SERVER, {
       path: "/socket.io",
       query: {
         userId: String(userId),
@@ -45,7 +46,7 @@ class SocketService {
       ? { Authorization: `Bearer ${token}` }
       : undefined;
 
-    this.supplyChainSocket = io(`${API_BASE_URL}/supply-chain`, {
+    this.supplyChainSocket = io(`${SOCKET_SERVER}/supply-chain`, {
       path: "/socket.io",
       query: {
         userId: String(userId),

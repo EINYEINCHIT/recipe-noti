@@ -38,7 +38,7 @@ export default function Redirect() {
       goRoom(roomId);
     } catch (err) {
       console.warn("Join Room Error: ", err);
-      goNoti();
+      goBack();
     }
   };
 
@@ -56,6 +56,7 @@ export default function Redirect() {
 
   const goLabOrder = async (orderId: string) => {
     Alert.alert("TODO: go lab order");
+    goBack();
   };
 
   const goRecipeDesign = async (
@@ -64,19 +65,22 @@ export default function Redirect() {
     packagingId: string
   ) => {
     Alert.alert("TODO: go recipe design");
+    goBack();
   };
 
   const goRecipeVersion = async (page: string | null, recipeId: string) => {
     Alert.alert("TODO: go recipe version");
+    goBack();
   };
 
   const goLabService = async (page: string | null, serviceId: string) => {
     Alert.alert("TODO: go lab service");
+    goBack();
   };
 
   useEffect(() => {
     if (!token) {
-      goNoti();
+      goBack();
       return;
     }
 
@@ -107,7 +111,7 @@ export default function Redirect() {
         }
       }
     } catch (err: any) {
-      goNoti();
+      goBack();
     }
   }, []);
 
