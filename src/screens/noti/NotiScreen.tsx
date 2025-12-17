@@ -68,49 +68,46 @@ export const NotiScreen = () => {
   };
 
   return (
-    <MyContainer>
+    <MyContainer style={styles.container}>
       {error && <Text style={{ color: Colors.error }}>{error}</Text>}
 
       {loading && page === 1 ? (
-        <View style={[styles.loadingContainer, { marginTop: 20 } ]}>
+        <View style={[styles.loadingContainer ]}>
           <ActivityIndicator color={Colors.primary[500]} size="large" />
         </View>
       ) : (
-        <View style={styles.notiContainer}>
-          <FlatList
-            data={notifications}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <NotiItem item={item} onClickNoti={onClickNoti} />
-            )}
-            onEndReached={() => {
-              if (!loading && hasMore) {
-                setPage((prev) => prev + 1);
-              }
-            }}
-            onEndReachedThreshold={1.0}
-            ListFooterComponent={() => (
-              loading && page > 1
-                ? <View style={styles.loadingContainer}>
-                    <ActivityIndicator color={Colors.primary[500]} size="large" />
-                  </View>
-                : null
-            )}
-          />
-        </View>
+        <FlatList
+          data={notifications}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <NotiItem item={item} onClickNoti={onClickNoti} />
+          )}
+          onEndReached={() => {
+            if (!loading && hasMore) {
+              setPage((prev) => prev + 1);
+            }
+          }}
+          onEndReachedThreshold={1.0}
+          ListFooterComponent={() => (
+            loading && page > 1
+              ? <View style={styles.loadingContainer}>
+                  <ActivityIndicator color={Colors.primary[500]} size="large" />
+                </View>
+              : null
+          )}
+        />
       )}
     </MyContainer>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   loadingContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 50
-  },
-  notiContainer: {
-    width: "100%",
   },
 });

@@ -180,9 +180,9 @@ export const MessengerScreen: React.FC<MessengerScreenProps> = ({ roomId = '6845
 
   return (
     <RequiredAuth>
-      <MyContainer style={styles.container}>
+      <MyContainer style={styles.container} edges={["bottom"]}>
         {isInitializing ? (
-          <View style={styles.loadingWrapper}>
+          <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.primary[500]} />
           </View>
         ) : (
@@ -212,14 +212,9 @@ export const MessengerScreen: React.FC<MessengerScreenProps> = ({ roomId = '6845
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "stretch",
     flex: 1,
   },
-  keyboardAvoiding: {
-    flex: 1,
-    width: "100%",
-  },
-  loadingWrapper: {
+  loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
