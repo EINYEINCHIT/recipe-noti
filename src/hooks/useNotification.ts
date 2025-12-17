@@ -23,10 +23,10 @@ export function useNotification() {
 
         if (token) {
           setFcmToken(token);
-          console.log("***** FCM Token:", token);
+          console.log("FCM Token: ", token);
         }
       } else {
-        console.log("***** Permission denied");
+        console.log("Permission denied");
       }
 
       firebaseMessagingService.registerNotificationLifecycleHandlers();

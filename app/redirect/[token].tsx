@@ -20,10 +20,10 @@ export default function Redirect() {
       isMember = !!members?.find((item: any) => item.user_id === user?.user_id);
 
       if (!isMember) {
-        Alert.alert("Logout", "Are you sure you want to join room?", [
+        Alert.alert("Join Room", "Are you sure you want to join room?", [
           { text: "Cancel" },
           {
-            text: "Logout",
+            text: "Join",
             onPress: async () => {
               await joinRoom({
                 room_id: roomId,

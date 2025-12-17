@@ -1,6 +1,6 @@
-export const API_SERVER = "https://chat0.myskinrecipes.com";
-export const SHOP_SERVER = "https://stage0.myskinrecipes.com/shop/";
-export const SOCKET_SERVER = "https://chat0.myskinrecipes.com"
+export const API_SERVER = "http://192.168.100.146:8000";
+export const SHOP_SERVER = "https://stage0.myskinrecipes.com/shop";
+export const SOCKET_SERVER = "http://192.168.100.146:8000"
 
 /**
  * - Staging → https://chat0.myskinrecipes.com
@@ -18,14 +18,14 @@ export const API_ENDPOINTS = {
   noti: {
     subscribe: "/api/noti/subscribe",
     findAll: "/api/noti/staff/notification",
-    seen: "api/noti/staff/notification/seen",
-    read: "api/noti/staff/notification/read",
+    seen: "/api/noti/staff/notification/seen",
+    read: "/api/noti/staff/notification/read",
   },
   room: {
     findAll: "/api/chat/room",
     findOne: (roomId: number) => `/api/chat/room/${roomId}`,
     update: "/api/chat/room",
-    join: "api/chat/room/join",
+    join: "/api/chat/room/join",
   },
   service: {
     findAll: "/api/chat/service",
@@ -35,9 +35,9 @@ export const API_ENDPOINTS = {
   },
   file: {
     chat: "/api/file/chat",
-    machine: "api/file/machine",
-    recipes: "api/file/recipes",
-    upload: "api/file/upload",
+    machine: "/api/file/machine",
+    recipes: "/api/file/recipes",
+    upload: "/api/file/upload",
   },
   shop: {
     getOrder: "/module/ajaxmodule/getOrder",

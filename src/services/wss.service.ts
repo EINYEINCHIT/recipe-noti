@@ -16,7 +16,6 @@ class SocketService {
   }
 
   setupSocketConnection(userId: number | string, token?: string) {
-    console.log("***** setupSocketConnection");
     if (this.socket) {
       return;
     }
@@ -34,6 +33,8 @@ class SocketService {
       extraHeaders,
       transports: ["websocket"],
     });
+
+    console.log("socket: ", this.socket);
   }
 
   setupSupplyChainConnection(userId: number | string, token?: string) {
