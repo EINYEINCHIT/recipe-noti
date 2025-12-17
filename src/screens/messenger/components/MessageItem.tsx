@@ -23,9 +23,15 @@ type MessageItemProps = {
   item: Message;
   roomId: string;
   onFocus: (event?: any) => void;
+  onReply: (message: Message) => void;
 };
 
-const MessageItem: React.FC<MessageItemProps> = ({ item, roomId, onFocus }) => {
+const MessageItem: React.FC<MessageItemProps> = ({
+  item,
+  roomId,
+  onFocus,
+  onReply,
+}) => {
   const user = useAuthStore((state) => state.user);
   const activeRoom = useMessengerStore((state) => state.activeRoom);
   const participants = useMessengerStore((state) => state.participants);
@@ -81,8 +87,8 @@ const MessageItem: React.FC<MessageItemProps> = ({ item, roomId, onFocus }) => {
     }
   };
 
-  const onReply = () => {
-    Alert.alert("TODO: replyMessage");
+  const handleReply = () => {
+    onReply(item);
   };
 
   const onDownload = async () => {
@@ -206,7 +212,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ item, roomId, onFocus }) => {
               <Menu.Item
                 onPress={() => {
                   setOpenMenuId(null);
-                  onReply();
+                  handleReply();
                 }}
                 title="Reply"
               />

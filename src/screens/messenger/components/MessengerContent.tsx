@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { SUPPLY_CHAIN_SERVICE_ID } from "@/constants";
 import { useMessengerStore } from "@/stores";
+import { Message } from "@/types";
 // components
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -40,6 +41,7 @@ const MessengerContent: React.FC<MessengerContentProps> = ({
 
   const [loadingStates, setLoadingStates] = useState({});
   const [messageApproval, setMessageApproval] = useState(null);
+  const [replyMessage, setReplyMessage] = useState<Message | null>(null);
 
   /* ------------------------- Messenger List Actions ------------------------- */
 
@@ -48,6 +50,11 @@ const MessengerContent: React.FC<MessengerContentProps> = ({
     //   setMessageApproval(null);
     // }
     onSendMessage(data);
+  };
+
+  const handleReplyMessage = (message: Message) => {
+    if (isSupplierRoom) return;
+    setReplyMessage(message);
   };
 
   const openReplyDialog = () => {
@@ -116,6 +123,7 @@ const MessengerContent: React.FC<MessengerContentProps> = ({
       <MessageList
         roomId={roomId}
         onFindMessage={onFindMessage}
+        onReply={handleReplyMessage}
         onApprove={approveMessage}
         onReject={rejectMessage}
         onUpdateApprovalMessage={updateApprovalMessage}
@@ -125,7 +133,9 @@ const MessengerContent: React.FC<MessengerContentProps> = ({
       {!isSupplierRoom && (
         <MessageInput
           roomId={roomId}
-          onSendMessage={onSendMessage}
+          parentMessage={replyMessage}
+          onClearParentMessage={() => setReplyMessage(null)}
+          onSendMessage={handleSendMessage}
           onOpenQuickReply={openReplyDialog}
           onGenerateAiMessage={onGenerateAiMessage}
         />

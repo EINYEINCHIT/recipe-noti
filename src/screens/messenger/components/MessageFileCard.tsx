@@ -9,7 +9,7 @@ import {
   Modal,
   ScrollView,
 } from "react-native";
-import { Video, ResizeMode } from 'expo-av';
+import { Video, ResizeMode } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { getFileType, getBase64File } from "@/services";
 import { Message, MessageTypeEnum } from "@/types";
@@ -58,26 +58,19 @@ const MessageFileCard: React.FC<MessageFileCardProps> = ({
       style={[
         styles.card,
         user?.user_id === item.user_id ? styles.rightCard : styles.leftCard,
-        isImageOrVideo && { width: 220, height: 220, justifyContent: "center" }
+        isImageOrVideo && { width: 220, minHeight: 220, justifyContent: "center" }
       ]}
       activeOpacity={0.8}
     >
-      {/* {item.parent_message_id && (
-        <ParentMessage
-          item={item}
-          memberships={memberships}
-          participants={participants}
-          onFocusEvent={onFocusEvent}
-        />
-      )} */}
+      {isImageOrVideo && !base64 && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color={Colors.primary[500]} />
+        </View>
+      )}
+
+      {base64 && item.parent_message_id && <ParentMessage item={item} />}
 
       <View style={styles.fileWrapper}>
-        {isImageOrVideo && !base64 && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={Colors.primary[500]} />
-          </View>
-        )}
-
         {fileType === "image" && base64 && (
           <TouchableOpacity onPress={() => setShowPreview(true)}>
             <Image
@@ -106,8 +99,12 @@ const MessageFileCard: React.FC<MessageFileCardProps> = ({
                 size={20}
               />
 
-              {!item.fileMessage.is_available && (
-                <Text style={styles.notAvailable}>This file is no longer available for download.</Text>
+              {!item.fileMessage.is_available ? (
+                <Text style={styles.notAvailable}>
+                  This file is no longer available for download.
+                </Text>
+              ) : (
+                <Text>FILE</Text>
               )}
             </View>
           </View>
@@ -142,7 +139,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     position: "relative",
-    boxShadow: '0px 2px 2px -1px rgba(9, 30, 66, 0.15)',
+    boxShadow: "0px 2px 2px -1px rgba(9, 30, 66, 0.15)",
   },
   rightCard: {
     backgroundColor: Colors.primary[100],
@@ -150,16 +147,7 @@ const styles = StyleSheet.create({
   leftCard: {
     backgroundColor: Colors.white,
   },
-  replyBtn: {
-    position: "absolute",
-    top: 5,
-    right: -35,
-  },
-  replyText: {
-    fontSize: 18,
-  },
   fileWrapper: {
-    marginTop: 5,
   },
   loadingOverlay: {
     position: "absolute",
@@ -198,14 +186,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.9)",
-  },
-  previewScroll: {
-    flex: 1,
-  },
-  previewScrollContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   previewImage: {
     width: "100%",

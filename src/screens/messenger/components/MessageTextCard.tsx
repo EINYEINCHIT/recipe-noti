@@ -77,14 +77,9 @@ const MessageTextCard: React.FC<MessageTextCardProps> = ({
       ]}
       activeOpacity={0.8}
     >
-      {/* {showParentMessage && (
-        <ParentMessage
-          item={item}
-          memberships={memberships}
-          participants={participants}
-          onFocus={onFocus}
-        />
-      )} */}
+      {showParentMessage && (
+        <ParentMessage item={item} />
+      )}
 
       <View style={styles.messageWrapper}>
         <RenderHtml
@@ -118,16 +113,7 @@ const styles = StyleSheet.create({
   leftCard: {
     backgroundColor: Colors.white,
   },
-  replyBtn: {
-    position: "absolute",
-    top: 5,
-    right: -35,
-  },
-  replyText: {
-    fontSize: 18,
-  },
   messageWrapper: {
-    marginTop: 5,
   },
 });
 

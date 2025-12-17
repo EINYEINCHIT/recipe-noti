@@ -11,6 +11,7 @@ import {
 import { Colors } from "@/constants";
 import { useMessengerStore } from "@/stores";
 import { LIMIT, ORDER } from "@/constants";
+import { Message } from "@/types";
 // components
 import MessageItem from "./MessageItem";
 import MessageApproval from "./MessageApproval";
@@ -18,6 +19,7 @@ import MessageApproval from "./MessageApproval";
 type MessageListProps = {
   roomId: string;
   onFindMessage: (event?: any) => void;
+  onReply: (message: Message) => void;
   onApprove: (event?: any) => void;
   onReject: (event?: any) => void;
   onUpdateApprovalMessage: (event?: any) => void;
@@ -27,6 +29,7 @@ type MessageListProps = {
 const MessageList: React.FC<MessageListProps> = ({
   roomId,
   onFindMessage,
+  onReply,
   onApprove,
   onReject,
   onUpdateApprovalMessage,
@@ -102,6 +105,7 @@ const MessageList: React.FC<MessageListProps> = ({
               item={item}
               roomId={roomId}
               onFocus={scrollToTarget}
+              onReply={onReply}
             />
           )}
           onEndReached={loadMoreMessages}

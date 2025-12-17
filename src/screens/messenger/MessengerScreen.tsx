@@ -19,7 +19,7 @@ type MessengerScreenProps = {
   roomId: string;
 };
 
-export const MessengerScreen: React.FC<MessengerScreenProps> = ({ roomId = '68458' }) => {
+export const MessengerScreen: React.FC<MessengerScreenProps> = ({ roomId }) => {
   const user = useAuthStore((state) => state.user);
   const [isInitializing, setIsInitializing] = useState(true);
   const {

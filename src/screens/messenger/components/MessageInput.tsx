@@ -4,27 +4,30 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import { Colors } from "@/constants";
 import { useAuthStore } from "@/stores";
+import { Message, MessageTypeEnum } from "@/types";
 import { FILE_TYPE, FILE_UPLOAD_SIZE, getFileType, uploadFile } from "@/services";
 // components
 import ParentMessage from "./ParentMessage";
-import { MessageTypeEnum } from "@/types";
 
 type MessageInputProps = {
   roomId: string;
+  parentMessage: Message | null;
   onSendMessage: (event?: any) => void;
   onOpenQuickReply: (event?: any) => void;
   onGenerateAiMessage: (event?: any) => void;
+  onClearParentMessage: () => void;
 };
 
 const MessageInput: React.FC<MessageInputProps> = ({
   roomId,
+  parentMessage,
   onSendMessage,
   onOpenQuickReply,
   onGenerateAiMessage,
+  onClearParentMessage,
 }) => {
   const user = useAuthStore((state) => state.user);
   const [chatMessage, setChatMessage] = useState("");
-  const [parentMessage, setParentMessage] = useState<any | null>(null);
   const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
   const [filename, setFilename] = useState("");
   const [fileDisplayName, setFileDisplayName] = useState("");
@@ -81,7 +84,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const clearMessage = () => {
     setChatMessage("");
-    setParentMessage(null);
+    onClearParentMessage();
   };
 
   const clearFile = () => {
@@ -164,18 +167,22 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   return (
     <View style={styles.footer}>
-      {/* {parentMessage && (
+      {parentMessage && user && (
         <View style={styles.parentMessageWrapper}>
           <ParentMessage
-            item={{ user_id: user?.user_id, parent: parentMessage }}
-            memberships={memberships}
-            participants={participants}
+            item={{
+              ...parentMessage,
+              user_id: user.user_id,
+              parent: parentMessage,
+              parent_message_id: parentMessage.id,
+            }}
+            isAttachment={true}
           />
-          <TouchableOpacity onPress={() => setParentMessage(null)}>
-            <Text style={{ fontSize: 18 }}>X</Text>
+          <TouchableOpacity onPress={onClearParentMessage}>
+            <Ionicons name="close-circle" size={20} color={Colors.gray[400]} />
           </TouchableOpacity>
         </View>
-      )} */}
+      )}
 
       {file && (
         <View style={styles.fileWrapper}>
@@ -230,9 +237,10 @@ const styles = StyleSheet.create({
   parentMessageWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
-    padding: 5,
-    backgroundColor: "#f0f0f0",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: Colors.primary[50],
   },
   fileWrapper: {
     flexDirection: "row",

@@ -71,6 +71,7 @@ export interface Message {
   seen_by_staff: boolean;
   seen_by_customer: boolean;
   parent_message_id: number;
+  parent: Message;
   textMessage: TextMessage;
   fileMessage: FileMessage;
   transferMessage: TransferMessage;
